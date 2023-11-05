@@ -1,0 +1,24 @@
+This asteroid is Apophis 
+
+The following is the volInt.c Calculations for the asteroid
+
+T1 =              +1.274109
+
+Tx =              -0.002739
+Ty =              -0.001364
+Tz =              -0.000392
+
+Txx =             +0.214617
+Tyy =             +0.103781
+Tzz =             +0.076218
+
+Txy =             +0.000575
+Tyz =             -0.000151
+Tzx =             -0.000918
+
+center of mass:  (   -0.002150,   -0.001070,   -0.000308)
+
+inertia tensor with origin at c.o.m. :
+      +0.179997        -0.000572        +0.000919
+      -0.000572        +0.290829        +0.000151
+      +0.000919        +0.000151        +0.318391
