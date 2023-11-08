@@ -68,7 +68,8 @@ class ApplicationWindow(QMainWindow):
         self.slider_elev_layout.addWidget(QLabel(f"{min}"))
         self.slider_elev_layout.addWidget(self.slider_elev)
         self.slider_elev_layout.addWidget(QLabel(f"{max}"))
-
+        ###################################################
+        #
         ################################ 
         # Define Asteroid Info Display #
         ################################
@@ -106,7 +107,9 @@ class ApplicationWindow(QMainWindow):
                              "Xenia",
                              "Yeungchuchiu",
                              "Zoya"])
-
+        #################
+        # Window Layout #
+        #################
         # Right layout
         rlayout = QVBoxLayout()
         rlayout.setContentsMargins(1, 1, 1, 1)
@@ -128,6 +131,7 @@ class ApplicationWindow(QMainWindow):
         layout.addLayout(llayout, 70)
         layout.addLayout(rlayout, 30)
 
+        ##############################
         # Signal and Slots connections
         self.combo.currentTextChanged.connect(self.combo_option)
         self.slider_azim.valueChanged.connect(self.rotate_azim)
@@ -150,25 +154,25 @@ class ApplicationWindow(QMainWindow):
         self.slider_azim.setValue(azim + 180)
         self.slider_elev.setValue(elev + 180)
 
-    def clearCanvas(self):
-        self._ax.cla()  # Clear the 3D plot
-        self._ax.set_xlabel('X Label')
-        self._ax.set_ylabel('Y Label')
-        self._ax.set_zlabel('Z Label')
-        self.canvas.draw()
-
 
     #####################################
     # Define The plot Canvas & Settings #
     def set_canvas_configuration(self):
+        # Main FIX !!!
+        # - clear figure for next plot
+        self.fig.clf()
+        ##############
         self.fig.set_canvas(self.canvas)
         self._ax = self.canvas.figure.add_subplot(projection="3d")
         # Axis Labels 
         self._ax.set_xlabel('km')
         self._ax.set_ylabel('km')
         self._ax.set_zlabel('km')
-        Space      = "#000000"
-        Grid_Color = '#00FFFF'
+        ##########
+        # Colors ###############
+        Space      = "#000000" # Space Backdrop
+        Grid_Color = '#1A85FF' # Blue for colorblind
+        ########################
         # Background Color                           
         self.fig.set_facecolor(Space)                
         self._ax.set_facecolor(Space)                
@@ -191,7 +195,7 @@ class ApplicationWindow(QMainWindow):
         self._ax.zaxis.line.set_color(Grid_Color)     
         # Grid Line Color                            
         plt.rcParams['grid.color'] = Grid_Color                             
-        #########################################    
+        #########################################  
     ####################################################### 
     
     ##########################
@@ -201,7 +205,6 @@ class ApplicationWindow(QMainWindow):
     ###########
     # Apophis #
     def Apophis(self):
-
         # Call plot settings
         self.set_canvas_configuration()
         # Assign Asteroid Data
@@ -212,7 +215,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Apophis.txt", "r") as file:
@@ -233,7 +236,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Arrokoth.txt", "r") as file:
@@ -254,7 +257,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Bilbo.txt", "r") as file:
@@ -275,7 +278,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Cerberus.txt", "r") as file:
@@ -296,7 +299,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Claudia.txt", "r") as file:
@@ -317,7 +320,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Danzig.txt", "r") as file:
@@ -338,7 +341,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Eva.txt", "r") as file:
@@ -359,7 +362,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Flora.txt", "r") as file:
@@ -380,7 +383,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Griffin.txt", "r") as file:
@@ -401,7 +404,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Hektor.txt", "r") as file:
@@ -422,7 +425,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Iris.txt", "r") as file:
@@ -443,7 +446,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Julia.txt", "r") as file:
@@ -464,7 +467,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Kleopatra.txt", "r") as file:
@@ -485,7 +488,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Lucifer.txt", "r") as file:
@@ -506,7 +509,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Mithra.txt", "r") as file:
@@ -527,7 +530,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Noviomagum.txt", "r") as file:
@@ -548,7 +551,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Otto.txt", "r") as file:
@@ -569,7 +572,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Persephone.txt", "r") as file:
@@ -590,7 +593,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Reinmuthia.txt", "r") as file:
@@ -611,7 +614,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Saville.txt", "r") as file:
@@ -632,7 +635,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Toutatis.txt", "r") as file:
@@ -653,7 +656,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Ursa.txt", "r") as file:
@@ -674,7 +677,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Vera.txt", "r") as file:
@@ -695,7 +698,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Waltraut.txt", "r") as file:
@@ -716,7 +719,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Xenia.txt", "r") as file:
@@ -737,7 +740,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Yeungchuchiu.txt", "r") as file:
@@ -758,7 +761,7 @@ class ApplicationWindow(QMainWindow):
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
-               color='red')
+               color='#D41159')
         self.canvas.draw()
         # Set Asteroid Information out
         with open("Zoya.txt", "r") as file:
@@ -826,13 +829,8 @@ class ApplicationWindow(QMainWindow):
             self.Yeungchuchiu()
         elif text =="Zoya":
             self.Zoya()
-        
-
-
-
-
-
-
+#################################        
+#####
     ###########################
     # Slots for Azim. & Elev. #
     ###########################

@@ -123,7 +123,7 @@ Face_Data_Out   = np.column_stack((Face_Data_Out_Y,fz)) #
 #########################################
 # Write Data File for Mirtich's Program #
 #########################################################################
-with open(Asteroid_file_in+".in","w") as Poly_Data_file:                   #
+with open(Asteroid_file_in+".in","w") as Poly_Data_file:                #
     np.savetxt(Poly_Data_file,numb_vert_array,fmt='%s',delimiter='\t'); #
     np.savetxt(Poly_Data_file,Vert_Data_Out,fmt='%.8f',delimiter='\t'); #
     np.savetxt(Poly_Data_file,numb_face_array,fmt='%s',delimiter=' ');  #

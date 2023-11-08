@@ -93,6 +93,7 @@ Face_Data_Out_0 = np.column_stack((fx,fy))              #
 Face_Data       = np.column_stack((Face_Data_Out_0,fz)) #
 #########################################################
 #
+ic(Vert_Data.max())
 ################################
 # Tetrahedron Center of Masses #
 ################################
@@ -106,7 +107,7 @@ Center_mass_tetra = []
 # 
 # - Use Faces as the index !!
 for ii in range(0,data_size):
-     ic(Face_Data[ii,0],Face_Data[ii,1],Face_Data[ii,2])
+     # ic(Vert_Data[Face_Data[ii,0],0],Vert_Data[Face_Data[ii,1],0],Vert_Data[Face_Data[ii,2],0])
      Center_mass_calc_x = (Vert_Data[Face_Data[ii,0],0] + Vert_Data[Face_Data[ii,1],0] + Vert_Data[Face_Data[ii,2],0] + CM[0])/4
      Center_mass_calc_y = (Vert_Data[Face_Data[ii,0],1] + Vert_Data[Face_Data[ii,1],1] + Vert_Data[Face_Data[ii,2],1] + CM[1])/4
      Center_mass_calc_z = (Vert_Data[Face_Data[ii,0],2] + Vert_Data[Face_Data[ii,1],2] + Vert_Data[Face_Data[ii,2],2] + CM[2])/4
@@ -114,7 +115,32 @@ for ii in range(0,data_size):
      # Fill list
      Center_mass_tetra.append(Center_mass_calc)
 #ic(Center_mass_tetra)
+arr = np.array(Center_mass_tetra)*(1/3.281)
+#
+###################
+# Checking Radius #
+######################
+vec_x = arr[:,0] - CM[0]
+vec_y = arr[:,1] - CM[1]
+vec_z = arr[:,2] - CM[2]
 
+Radius_initial = np.sqrt(vec_x**2 + vec_y**2 + vec_z**2)
+# Conversion test
+Radius = Radius_initial
+mean_radius = np.mean(Radius)
+ic(mean_radius)
+ic(Radius.max())
+ic(Radius.min())
+'''
+# Save Data 
+np.savetxt("Radius.out",Radius,delimiter=' ');
+Data_message = f"""
+{'-'*42}
+| Data ready, See program directory
+{'-'*42}
+"""
+print(Data_message)
+'''
 ########
 # Plot #
 ########
@@ -122,7 +148,6 @@ figure = plt.figure()
 axis   = figure.add_subplot(projection='3d')
 #
 # Plot it
-arr = np.array(Center_mass_tetra)
 xp = arr[:,0]
 yp = arr[:,1]
 zp = arr[:,2]
@@ -133,5 +158,7 @@ ic(size)
 axis.scatter3D(xp,yp,zp,
                marker='.',
                color='red')
-#
+axis.set_xlabel('x (km)')
+axis.set_ylabel('y (km)')
+axis.set_zlabel('z (km)')
 plt.show()

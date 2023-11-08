@@ -134,7 +134,7 @@ for ii in range(0,data_size):
 ####################
 # Text File output #
 ####################
-# Save Data as .txt
+# Save Data as .out
 np.savetxt(Asteroid_file_in+".out",Center_mass_tetra,delimiter=' ');
 Data_message = f"""
 {'-'*42}

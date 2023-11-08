@@ -52,8 +52,8 @@
    ============================================================================
 */
 
-#define MAX_VERTS 5178     /* maximum number of polyhedral vertices */
-#define MAX_FACES 10368     /* maximum number of polyhedral faces */
+#define MAX_VERTS 20001     /* maximum number of polyhedral vertices */
+#define MAX_FACES 39997      /* maximum number of polyhedral faces */
 #define MAX_POLYGON_SZ 10 /* maximum number of verts per polygonal face */
 
 #define X 0
@@ -232,7 +232,7 @@ void compProjectionIntegrals(FACE *f)
   Pabb /= -60.0;
 }
 
-void compFaceIntegrals(FACE *f)
+ void compFaceIntegrals(FACE *f)
 {
   double *n, w;
   double k1, k2, k3, k4;
