@@ -1,69 +1,140 @@
-################
-# GUI Capstone #
-#########################
-import GUI_packages as GP
-##
-import sys
-import numpy as np
-import matplotlib.pyplot as plt
+"""
+Program: Asteroids_In_MASCON1.py
+Description: GUI that displays asteroid shape models
+                along with the Center of Masses for the 
+                shapes tetrahedrons; represented as 
+                as the layer of points. This shows the points
+                used to caclualte teh gravity potentail in 
+                MASCON I.
 
+MIT License
+
+Copyright (c) [2023] [Evan Blosser]
+
+"""
+
+###################
+# Import Packages #
+#########################
+# File reading
+import GUI_packages as GP
+# System basics
+import sys
+# Mathmatical !!
+import numpy as np
+# Import pyplot as plt from matplotlib
+import matplotlib.pyplot as plt
+#
+###############
+# GUI Pckages #
+###############
+# Import GUI supported Canvas from matplotlob
 from matplotlib.backends.backend_qtagg import FigureCanvas
+# Import matplotlib built in tool bar
+from matplotlib.backends.backend_qt5agg import NavigationToolbar2QT as NavBar
+# Import figure from matplotlib
 from matplotlib.figure import Figure
+# Import 3D axes for 3D plotting
 from mpl_toolkits.mplot3d import axes3d
 ###########################
+# Import Qt & Selection slots
 from PySide6.QtCore import Slot,Qt
-from PySide6.QtGui import QAction, QKeySequence
-#from PyQt5.QtGui  import 
-from PySide6.QtWidgets import (QApplication, QComboBox, QHBoxLayout,
-                               QHeaderView, QLabel, QMainWindow, QSlider,
-                               QTableWidget, QVBoxLayout,
-                               QWidget,QTextEdit)
+# Import Tool bar buttons & Font for user text
+from PySide6.QtGui import QAction, QKeySequence, QFont
+# Imports:
+#  - Application window
+#  - Display boxs & headers
+#  - layout funcitons
+from PySide6.QtWidgets import (QApplication, QComboBox, QHBoxLayout, QLabel, 
+                               QMainWindow, QSlider, QVBoxLayout,QWidget,
+                               QTextEdit,QMessageBox)
 #####################################
 #
 ######################
-# Define application ###########
+# Define application #
+######################
 class ApplicationWindow(QMainWindow):
+    # Define main window
     def __init__(self, parent=None):
         QMainWindow.__init__(self, parent)
-        
         # Define Main widget
         self._main = QWidget()
         # Set as Central
         self.setCentralWidget(self._main)
-
-        # Define the menu 
+        ###############
+        ## Main Menu ##
+        ###############
+        # Define menu bar
         self.menu = self.menuBar()
+        
         # Add File 
         self.menu_file = self.menu.addMenu("File")
         exit = QAction("Exit", self, triggered=qApp.quit)
         self.menu_file.addAction(exit)
         
-        # The About section
+        
+        ##################
+        # About Software #
+        ##################
+        # Define about section of menu
         self.menu_about = self.menu.addMenu("&About")
-        about = QAction("About Qt", self, shortcut=QKeySequence(QKeySequence.HelpContents),
-                        triggered=qApp.aboutQt)
+        # Define about message box
+        def About_Message():
+            # Call message file
+            with open("About.md", "r") as file:
+                Output_Message = file.read()
+                msg_box = QMessageBox()
+                msg_box.setWindowTitle("Asteroid Naming")
+                msg_box.setText(Output_Message)
+                msg_box.exec()
+        # Assign about in menu
+        about = QAction("Asteroid Naming", self, shortcut=QKeySequence(QKeySequence.HelpContents),
+                        triggered=About_Message)
         self.menu_about.addAction(about)
-
+        ################################
+        #
+        ###############
+        # MIT License #
+        ###############
+        # Define License message box
+        def MIT_License():
+            # Call message file
+            with open("MIT_License_Evan.md", "r") as file:
+                Output_Message = file.read()
+                msg_box = QMessageBox()
+                msg_box.setWindowTitle("MIT License")
+                msg_box.setText(Output_Message)
+                msg_box.exec()
+        # Assign license in menu
+        License = QAction("License", self, shortcut=QKeySequence(QKeySequence.HelpContents),
+                        triggered=MIT_License)
+        self.menu_about.addAction(License)
+        ##################################
+        #
         ###################
         # Plotting Canvas #
         ###################
-        # Figure (Left)
+        # Define figure & canvas
         self.fig = Figure(figsize=(5, 3))
         self.canvas = FigureCanvas(self.fig)
-        
-        
-        #################
-        # Sliders (Left)
+        # Embed Matplotlib toolbar
+        self.toolbar = NavBar(self.canvas, self)
+        ###################################################
+        #
+        ###############
+        # Set Sliders #
+        ###############
+        # Define minimum and maximum rotation from 0 to 360 degrees
         min = 0
         max = 360
+        # Azimuth Slider
         self.slider_azim = QSlider(minimum=min, maximum=max, orientation=Qt.Horizontal)
-        self.slider_elev = QSlider(minimum=min, maximum=max, orientation=Qt.Horizontal)
-
         self.slider_azim_layout = QHBoxLayout()
         self.slider_azim_layout.addWidget(QLabel(f"{min}"))
         self.slider_azim_layout.addWidget(self.slider_azim)
         self.slider_azim_layout.addWidget(QLabel(f"{max}"))
-
+        # Elevation Slider
+        self.slider_elev = QSlider(minimum=min, maximum=max, orientation=Qt.Horizontal)
         self.slider_elev_layout = QHBoxLayout()
         self.slider_elev_layout.addWidget(QLabel(f"{min}"))
         self.slider_elev_layout.addWidget(self.slider_elev)
@@ -72,41 +143,30 @@ class ApplicationWindow(QMainWindow):
         #
         ################################ 
         # Define Asteroid Info Display #
-        ################################
-        self.Asteroid_info = QTextEdit()
-        #################
-
+        #####################################
+        # Set Asteroid information          #
+        self.Asteroid_info = QTextEdit()    #
+        # Set Font and Size                 #
+        font = QFont('Times New Roman', 14) #
+        # Apply to Asteroid information     #
+        self.Asteroid_info.setFont(font)    #
+        #####################################
+        #
         ###########################
         # Asteroid Selection Menu #
-        # ComboBox (Right)
+        ###########################
+        # Define combo box
         self.combo = QComboBox()
-        self.combo.addItems(["Apophis",
-                            "Arrokoth",
-                            "Bilbo",
-                            "Cerberus",
-                            "Claudia",
-                            "Danzig",
-                            "Eva",
-                            "Flora",
-                            "Griffin",
-                            "Hektor",
-                             "Iris",
-                             "Julia",
-                             "Kleopatra",
-                             "Lucifer",
-                             "Mithra",
-                             "Noviomagum",
-                             "Otto",
-                             "Persephone",
-                             "Reinmuthia",
-                             "Saville",
-                             "Toutatis",
-                             "Ursa",
-                             "Vera",
-                             "Waltraut",
-                             "Xenia",
-                             "Yeungchuchiu",
-                             "Zoya"])
+        self.combo.addItems(["Apophis", "Arrokoth", "Bilbo",
+                            "Cerberus", "Danzig","Eva", "Flora", 
+                            "Geographos","Hektor", "Iris", "Julia",
+                             "Kleopatra", "Lucifer", "Mithra",
+                             "Noviomagum", "Otto", "Persephone",
+                             "Runcorn", "Saville", "Toutatis",
+                             "Ursa", "Vera", "Waltraut",
+                             "Xenia", "Yeungchuchiu","Zoya"])
+        ######################################################
+        #
         #################
         # Window Layout #
         #################
@@ -119,44 +179,52 @@ class ApplicationWindow(QMainWindow):
 
         # Left layout
         llayout = QVBoxLayout()
+        llayout.addWidget(self.toolbar)
         rlayout.setContentsMargins(1, 1, 1, 1)
         llayout.addWidget(self.canvas, 88)
         llayout.addWidget(QLabel("Azimuth:"), 1)
         llayout.addLayout(self.slider_azim_layout, 5)
         llayout.addWidget(QLabel("Elevation:"), 1)
         llayout.addLayout(self.slider_elev_layout, 5)
-
+       
         # Main layout
         layout = QHBoxLayout(self._main)
         layout.addLayout(llayout, 70)
         layout.addLayout(rlayout, 30)
 
-        ##############################
-        # Signal and Slots connections
+        ################################
+        # Signal and Slots connections ########################
         self.combo.currentTextChanged.connect(self.combo_option)
         self.slider_azim.valueChanged.connect(self.rotate_azim)
         self.slider_elev.valueChanged.connect(self.rotate_elev)
-
-
-
-###################################
- # Initial Plot set to be Apophis #
-        self.Apophis()
+        #######################################################
+        #
+        ##################################
+        # Initial Plot set to be Apophis #
+        ##################################
+        # Call configuration
+        self.set_canvas_configuration()
+        # Plot Apophis initially 
+        self.plot_wire()
+        # Set initial values for Azimuth & Elevation
         self._ax.view_init(30, 30)
         self.slider_azim.setValue(30)
         self.slider_elev.setValue(30)
         self.fig.canvas.mpl_connect("button_release_event", self.on_click)
-        
+        ##################################################################
+        #
     ##################
     # Define sliders #
+    ##################
     def on_click(self, event):
         azim, elev = self._ax.azim, self._ax.elev
         self.slider_azim.setValue(azim + 180)
         self.slider_elev.setValue(elev + 180)
-
-
+    #########################################
+    #
     #####################################
     # Define The plot Canvas & Settings #
+    #####################################
     def set_canvas_configuration(self):
         # Main FIX !!!
         # - clear figure for next plot
@@ -165,9 +233,11 @@ class ApplicationWindow(QMainWindow):
         self.fig.set_canvas(self.canvas)
         self._ax = self.canvas.figure.add_subplot(projection="3d")
         # Axis Labels 
-        self._ax.set_xlabel('km')
-        self._ax.set_ylabel('km')
-        self._ax.set_zlabel('km')
+        self._ax.set_xlabel('X (km)')
+        self._ax.set_ylabel('Y (km)')
+        self._ax.set_zlabel('Z (km)')
+        # Set initial plot zoom
+        self._ax.margins(0.42)
         ##########
         # Colors ###############
         Space      = "#000000" # Space Backdrop
@@ -194,37 +264,41 @@ class ApplicationWindow(QMainWindow):
         self._ax.yaxis.line.set_color(Grid_Color)         
         self._ax.zaxis.line.set_color(Grid_Color)     
         # Grid Line Color                            
-        plt.rcParams['grid.color'] = Grid_Color                             
-        #########################################  
+        plt.rcParams['grid.color'] = Grid_Color
     ####################################################### 
-    
-    ##########################
-    ## Define Asteroid Plots #
-    ##########################
     #
-    ###########
-    # Apophis #
-    def Apophis(self):
-        # Call plot settings
+    # Plot methods
+    def plot_wire(self):
+   # Call plot settings
         self.set_canvas_configuration()
         # Assign Asteroid Data
-        Apophis_CM = GP.READ_IN('Apophis.out')
-        self.X = Apophis_CM[:,0]
-        self.Y = Apophis_CM[:,1]
-        self.Z = Apophis_CM[:,2]
+        Arrokoth_CM = GP.READ_IN('Apophis.out')
+        self.X = Arrokoth_CM[:,0]
+        self.Y = Arrokoth_CM[:,1]
+        self.Z = Arrokoth_CM[:,2]
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 0.23884078666393335
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Apophis.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]]) 
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Apophis.txt", "r") as file:
+        with open("Apophis.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
-    #################################################
+                self.Asteroid_info.setMarkdown(Output_Message)
+
     #
-    ###########
-    # Arrokoth #
+    ############
+    # Arrokoth ########
     def Arrokoth(self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -237,15 +311,25 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 1.003738848598423
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Arrokoth.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]]) 
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Arrokoth.txt", "r") as file:
+        with open("Arrokoth.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
-    ###########
-    # Bilbo #
+    #########
+    # Bilbo ########
     def Bilbo(self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -258,15 +342,25 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 5.100563165342119
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Bilbo.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]]) 
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Bilbo.txt", "r") as file:
+        with open("Bilbo.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
-    ###########
-    # Cerberus #
+    ############
+    # Cerberus ########
     def Cerberus(self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -279,36 +373,25 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 0.4700320526985952
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Cerberus.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]]) 
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Cerberus.txt", "r") as file:
+        with open("Cerberus.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
-    ###########
-    # Claudia #
-    def Claudia(self):
-        # Call plot settings
-        self.set_canvas_configuration()
-        # Assign Asteroid Data
-        Claudia_CM = GP.READ_IN('Claudia.out')
-        self.X = Claudia_CM[:,0]
-        self.Y = Claudia_CM[:,1]
-        self.Z = Claudia_CM[:,2]
-        # Plot Asteroid
-        self._ax.scatter3D(self.X,self.Y,self.Z,
-               marker='.',
-               color='#D41159')
-        self.canvas.draw()
-        # Set Asteroid Information out
-        with open("Claudia.txt", "r") as file:
-                Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
-    #################################################
-    #
-    ###########
-    # Danzig #
+    ##########
+    # Danzig ########
     def Danzig(self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -321,15 +404,25 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 9.273520448812137
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Danzig.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]])  
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Danzig.txt", "r") as file:
+        with open("Danzig.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
-    ###########
-    # Eva #
+    #######
+    # Eva ########
     def Eva(self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -342,15 +435,25 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 74.20189405027513
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Eva.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]])  
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Eva.txt", "r") as file:
+        with open("Eva.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
-    ###########
-    # Flora #
+    #########
+    # Flora ########
     def Flora(self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -363,36 +466,56 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 1.0161368060728935
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Flora.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]]) 
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Flora.txt", "r") as file:
+        with open("Flora.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
-    ###########
-    # Griffin #
-    def Griffin(self):
+    ##############
+    # Geographos ########
+    def Geographos(self):
         # Call plot settings
         self.set_canvas_configuration()
         # Assign Asteroid Data
-        Griffin_CM = GP.READ_IN('Griffin.out')
-        self.X = Griffin_CM[:,0]
-        self.Y = Griffin_CM[:,1]
-        self.Z = Griffin_CM[:,2]
+        Geographos_CM = GP.READ_IN('Geographos.out')
+        self.X = Geographos_CM[:,0]
+        self.Y = Geographos_CM[:,1]
+        self.Z = Geographos_CM[:,2]
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 0.8604483326862341
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Geographos.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]]) 
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Griffin.txt", "r") as file:
+        with open("Geographos.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
-    ###########
-    # Hektor  #
+    ##########
+    # Hektor #########
     def Hektor (self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -405,15 +528,25 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 125.1552869904105
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Hektor.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]]) 
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Hektor.txt", "r") as file:
+        with open("Hektor.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
     ########
-    # Iris #
+    # Iris ########
     def Iris(self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -426,15 +559,25 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 0.9397839352627169
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Iris.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]]) 
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Iris.txt", "r") as file:
+        with open("Iris.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
-    ########
-    # Julia #
+    #########
+    # Julia ########
     def Julia(self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -447,15 +590,25 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale =  0.9015971003020035
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Julia.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]]) 
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Julia.txt", "r") as file:
+        with open("Julia.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
-    ########
-    # Kleopatra #
+    #############
+    # Kleopatra #######
     def Kleopatra(self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -468,15 +621,25 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 0.8133640395837609
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Kleopatra.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]]) 
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Kleopatra.txt", "r") as file:
+        with open("Kleopatra.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
-    ########
-    # Lucifer #
+    ###########
+    # Lucifer ########
     def Lucifer(self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -489,15 +652,25 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 21.57712545847271
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Lucifer.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]]) 
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Lucifer.txt", "r") as file:
+        with open("Lucifer.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
-    ########
-    # Mithra #
+    ##########
+    # Mithra ########
     def Mithra(self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -510,15 +683,25 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 1.1245972680856962
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Mithra.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]]) 
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Mithra.txt", "r") as file:
+        with open("Mithra.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
-    ########
-    # Noviomagum #
+    ##############
+    # Noviomagum ########
     def Noviomagum(self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -531,15 +714,25 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 1.061747242223572
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Noviomagum.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]]) 
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Noviomagum.txt", "r") as file:
+        with open("Noviomagum.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
     ########
-    # Otto #
+    # Otto ########
     def Otto(self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -552,15 +745,25 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 10.89637979719658
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Otto.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]])  
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Otto.txt", "r") as file:
+        with open("Otto.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
-    ########
-    # Persephone #
+    ##############
+    # Persephone ########
     def Persephone(self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -573,36 +776,56 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 26.54152271850921
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Persephone.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]])  
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Persephone.txt", "r") as file:
+        with open("Persephone.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
-    ########
-    # Reinmuthia #
-    def Reinmuthia(self):
+    ###########
+    # Runcorn ########
+    def Runcorn(self):
         # Call plot settings
         self.set_canvas_configuration()
         # Assign Asteroid Data
-        Reinmuthia_CM = GP.READ_IN('Reinmuthia.out')
-        self.X = Reinmuthia_CM[:,0]
-        self.Y = Reinmuthia_CM[:,1]
-        self.Z = Reinmuthia_CM[:,2]
+        Runcorn_CM = GP.READ_IN('Runcorn.out')
+        self.X = Runcorn_CM[:,0]
+        self.Y = Runcorn_CM[:,1]
+        self.Z = Runcorn_CM[:,2]
         # Plot Asteroid
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 2.502147296572005
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Runcorn.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]])  
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Reinmuthia.txt", "r") as file:
+        with open("Runcorn.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
-    ########
-    # Saville #
+    ###########
+    # Saville ########
     def Saville(self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -615,15 +838,25 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 4.9301903600949455
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Saville.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]])  
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Saville.txt", "r") as file:
+        with open("Saville.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
-    ########
-    # Toutatis #
+    ############
+    # Toutatis ########
     def Toutatis(self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -636,15 +869,25 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 1.7910733773064786
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Toutatis.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]])  
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Toutatis.txt", "r") as file:
+        with open("Toutatis.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
     ########
-    # Ursa #
+    # Ursa ########
     def Ursa(self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -657,15 +900,25 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 22.92297044211607
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Ursa.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]]) 
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Ursa.txt", "r") as file:
+        with open("Ursa.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
     ########
-    # Vera #
+    # Vera ########
     def Vera(self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -678,15 +931,25 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 55.18763465915349
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Vera.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]])  
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Vera.txt", "r") as file:
+        with open("Vera.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
-    ########
-    # Waltraut #
+    ############
+    # Waltraut ########
     def Waltraut(self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -699,15 +962,25 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 18.50441901028305
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Waltraut.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]]) 
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Waltraut.txt", "r") as file:
+        with open("Waltraut.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
-    ########
-    # Xenia #
+    #########
+    # Xenia ########
     def Xenia(self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -720,15 +993,25 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 18.729161655946683
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Xenia.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]]) 
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Xenia.txt", "r") as file:
+        with open("Xenia.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
-    ########
-    # Yeungchuchiu #
+    ################
+    # Yeungchuchiu ########
     def Yeungchuchiu(self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -741,15 +1024,25 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 7.9518021638388
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Yeungchuchiu.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]]) 
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Yeungchuchiu.txt", "r") as file:
+        with open("Yeungchuchiu.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
     #
     ########
-    # Zoya #
+    # Zoya ########
     def Zoya(self):
         # Call plot settings
         self.set_canvas_configuration()
@@ -762,15 +1055,23 @@ class ApplicationWindow(QMainWindow):
         self._ax.scatter3D(self.X,self.Y,self.Z,
                marker='.',
                color='#D41159')
+        # Correct asteroid distacnce units scale
+        scale = 5.321921105048268
+        # Read in OBJ file and assign as a 3D mesh of faces
+        Asteroid_Mesh = GP.OBJ_READ_IN('Zoya.obj',scale)
+        # Add outside faces as 3D mesh
+        self._ax.add_collection3d(Asteroid_Mesh) 
+        # Set Asteroid Aspect Ratio 
+        self._ax.set_box_aspect(                                   
+            [np.ptp(coord) for coord in [self.X, self.Y, self.Z]]) 
+        # Draw Asteroid
         self.canvas.draw()
         # Set Asteroid Information out
-        with open("Zoya.txt", "r") as file:
+        with open("Zoya.md", "r") as file:
                 Output_Message = file.read()
-                self.Asteroid_info.setText(Output_Message)
+                self.Asteroid_info.setMarkdown(Output_Message)
     #################################################
-    
-    
-    
+    #
     ###############################
     # Slot for Asteroid selection #
     @Slot()
@@ -783,16 +1084,14 @@ class ApplicationWindow(QMainWindow):
             self.Bilbo()
         elif text == "Cerberus":
             self.Cerberus() 
-        elif text == "Claudia":
-            self.Claudia()   
         elif text == "Danzig":
             self.Danzig()  
         elif text == "Eva":
             self.Eva() 
         elif text == "Flora":
             self.Flora() 
-        elif text == "Griffin":
-            self.Griffin() 
+        elif text == "Geographos":
+            self.Geographos() 
         elif text == "Hektor":
             self.Hektor() 
         elif text =="Iris":
@@ -811,8 +1110,8 @@ class ApplicationWindow(QMainWindow):
             self.Otto()
         elif text =="Persephone":
             self.Persephone()
-        elif text =="Reinmuthia":
-            self.Reinmuthia()
+        elif text =="Runcorn":
+            self.Runcorn()
         elif text =="Saville":
             self.Saville()
         elif text =="Toutatis":
@@ -829,8 +1128,8 @@ class ApplicationWindow(QMainWindow):
             self.Yeungchuchiu()
         elif text =="Zoya":
             self.Zoya()
-#################################        
-#####
+    ############################### 
+    #       
     ###########################
     # Slots for Azim. & Elev. #
     ###########################
