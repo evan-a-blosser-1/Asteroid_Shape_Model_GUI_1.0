@@ -13,8 +13,10 @@ This is the repository for my OU Engineering Physics Capstone Project
   2. Locate the file and run as administrator
       - Windows will warn you that I am an Unkown publisher:
         ![image](https://github.com/evan-a-blosser-1/Asteroid_Shape_Model_GUI_1.0/assets/85218360/5bf24413-4d60-49d8-91e0-4affb43f8df8)
+        
       - Simply click **more info** and then **Run anyway**
         ![image](https://github.com/evan-a-blosser-1/Asteroid_Shape_Model_GUI_1.0/assets/85218360/0aae3d60-67a4-434b-8a8f-d52984f1683f)
+        
 3. Next just follow the setup you can choose where to install, and if you want a desktop shortcut.
 
    - I recommend creating the shortcut for ease of locating the software. 
@@ -25,7 +27,9 @@ This is the repository for my OU Engineering Physics Capstone Project
   This is a program that can take a .obj file and convert it to a format that can be run inside `volInt.c`
 
 ### volInt.c
-    Created by Brian Mirtich, and can be found at: https://github.com/OpenFOAM/OpenFOAM-2.1.x/blob/master/src/meshTools/momentOfInertia/volumeIntegration/volInt.c 
+  Created by Brian Mirtich, and can be found at:  
+  
+    https://github.com/OpenFOAM/OpenFOAM-2.1.x/blob/master/src/meshTools/momentOfInertia/volumeIntegration/volInt.c 
 
 ---
 
