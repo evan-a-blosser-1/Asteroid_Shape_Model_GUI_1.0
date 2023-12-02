@@ -14,6 +14,8 @@ This is the repository for my OU Engineering Physics Capstone Project
 
   A universal software developed to process shape models in OBJ format. Returns a file of positional data of each calculated Center of Mass for the tetrahedrons that make the polyhedron shape model. 
 
+  This also has a method for scaling the shape model using a mean radius that can either be input by the user, or you can select to not scale the shape model. 
+
 ---
 
 ## Apophis Recreation
