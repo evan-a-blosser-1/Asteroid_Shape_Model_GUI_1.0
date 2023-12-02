@@ -21,6 +21,14 @@ This is the repository for my OU Engineering Physics Capstone Project
 
 ---
 
+## obj2MirtichData.py
+  This is a program that can take a .obj file and convert it to a format that can be run inside `volInt.c`
+
+### volInt.c
+  Created by Brian Mirtich, and can be found at: https://github.com/OpenFOAM/OpenFOAM-2.1.x/blob/master/src/meshTools/momentOfInertia/volumeIntegration/volInt.c 
+
+---
+
 ## Asteroid_CM
 
   A universal software developed to process shape models in OBJ format. Returns a file of positional data of each calculated Center of Mass for the tetrahedrons that make the polyhedron shape model. 
@@ -33,3 +41,8 @@ This is the repository for my OU Engineering Physics Capstone Project
 
   Contains preliminary work on the asteroid model Apophis, to calculate the Center of Masses for each tetrahedron within the polyhedron shape model (.obj file).
 
+---
+
+## Mean_Radius_CCalculations.ipynb
+
+  Contains a log of mean radius and scaling done for all asteroids within this project.
