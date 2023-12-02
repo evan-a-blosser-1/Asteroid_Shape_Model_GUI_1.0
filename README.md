@@ -5,8 +5,11 @@ This is the repository for my OU Engineering Physics Capstone Project
 
   contains all the necessary files to run `Asteroids_In_MASCON1.py`
 
-### Installing `Asteroids_In_MASCON1.py` using pyinstaller
-    (current work in progress)
+### Installing `Asteroids_In_MASCON1`
+      The Asteroids_In_MASCON1_Setup.exe can be downloaded from the 'Releases' tab located on the right of this page.
+      The current release is `Version_1.1`
+
+      1. Download the 
 
 ---
 
