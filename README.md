@@ -7,11 +7,11 @@ This is the repository for my OU Engineering Physics Capstone Project
 
 ### Installing `Asteroids_In_MASCON`
   The `Asteroids_In_MASCON_Setup.exe` can be downloaded from the "Releases" tab located on the right of this page.
-  The current release is **Version_1.1**
+  The current release is **Version_1.3**
 
   1. Download the `Asteroids_In_MASCON_Setup.exe` file
   2. Locate the file and run as administrator
-      - Windows will warn you that I am an Unkown publisher:
+      - Windows will warn you that I am an Unknown publisher:
         
         ![image](https://github.com/evan-a-blosser-1/Asteroid_Shape_Model_GUI_1.0/assets/85218360/5bf24413-4d60-49d8-91e0-4affb43f8df8)
         
