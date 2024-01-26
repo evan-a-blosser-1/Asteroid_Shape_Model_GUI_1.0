@@ -1,11 +1,15 @@
 # Asteroid_Shape_Model_GUI_1.0
 This is the repository for my OU Engineering Physics Capstone Project 
 
+---
+
 ## MAIN_GUI
 
-  contains all the necessary files to run `Asteroids_In_MASCON.py`
+  contains all the necessary files, simply run `Asteroids_In_MASCON.py` in your favorite Interactive Development Environment (IDE)!
 
-### Installing `Asteroids_In_MASCON`
+---
+
+## Installing `Asteroids_In_MASCON`
   The `Asteroids_In_MASCON_Setup.exe` can be downloaded from the "Releases" tab located on the right of this page.
   The current release is **Version_1.3**
 
