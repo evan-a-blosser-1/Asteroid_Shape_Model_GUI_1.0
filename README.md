@@ -3,9 +3,8 @@ This is the repository for my Engineering Physics Capstone Project. After a succ
 
 This software is designed as an educational database of asteroid models, aiming to spread awareness of space sciences and engage society to support National Aeronautics and Space Administration funding. To learn how the MASCON models were created and how the GUI was programmed, see the project report here: [Capstone Paper](Evan_Blosser_Undergrad_Capstone_Paper.pdf)
 
-![Program Screenshot](Asteroids_in_MASCON.png)
 <p align="center">
-  <img src="Asteroids_in_MASCON.png" alt="Example image" width="600">
+  <img src="Asteroids_in_MASCON.png" alt="Example image" >
 </p>
 <p align="center"><em>Figure 1. Example caption.</em></p>
 ---
