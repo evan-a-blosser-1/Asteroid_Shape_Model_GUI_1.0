@@ -3,7 +3,7 @@ This is the repository for my OU Engineering Physics Capstone Project
 
 See the project report here: [Capstone Paper](Evan_Blosser_Undergrad_Capstone_Paper.pdf)
 
-![Program Screenshot](Asteroids in MASCON.png)
+![Program Screenshot](Asteroids_in_MASCON.png)
 ---
 
 ## MAIN_GUI
