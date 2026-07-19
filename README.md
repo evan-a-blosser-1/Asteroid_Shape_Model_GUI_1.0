@@ -1,7 +1,7 @@
 # Asteroids in MASCON
 This is the repository for my OU Engineering Physics Capstone Project 
 
-See the project report here: [](Evan_Blosser_Undergrad_Capstone_Paper.pdf)
+See the project report here: [Capstone Paper](Evan_Blosser_Undergrad_Capstone_Paper.pdf)
 
 ![](Asteroids in MASCON.png)
 ---
