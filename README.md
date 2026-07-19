@@ -1,6 +1,7 @@
 # Asteroids in MASCON
 This is the repository for my OU Engineering Physics Capstone Project 
 
+[]{Asteroids in MASCON.jpg}
 ---
 
 ## MAIN_GUI
