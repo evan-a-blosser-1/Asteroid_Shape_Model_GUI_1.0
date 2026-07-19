@@ -6,6 +6,13 @@ See the project report here: [Capstone Paper](Evan_Blosser_Undergrad_Capstone_Pa
 
 ![Program Screenshot](Asteroids_in_MASCON.png)
 ---
+---
+
+# HOW TO RUN
+
+There are two ways to run this software: the first is to run it directly, and the second is to install the executable. 
+##### To Run Directly, see MAIN_GUI
+##### To install, see Installing `Asteroids_In_MASCON`
 
 ## MAIN_GUI
 
@@ -32,6 +39,8 @@ See the project report here: [Capstone Paper](Evan_Blosser_Undergrad_Capstone_Pa
    - I recommend creating the shortcut for ease of locating the software. 
 
 ---
+---
+# Other Software:
 
 ## obj2MirtichData.py
   This is a program that can take a .obj file and convert it to a format that can be run inside `volInt.c`
