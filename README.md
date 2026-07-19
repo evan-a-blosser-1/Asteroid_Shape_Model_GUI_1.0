@@ -1,6 +1,7 @@
 # Asteroids in MASCON
-This is the repository for my OU Engineering Physics Capstone Project 
+This is the repository for my Engineering Physics Capstone Project. After a successful presentation and submission of this project, I was awarded a Bachelor's in Engineering Physics from the University of Oklahoma!
 
+This software is
 See the project report here: [Capstone Paper](Evan_Blosser_Undergrad_Capstone_Paper.pdf)
 
 ![Program Screenshot](Asteroids_in_MASCON.png)
@@ -8,7 +9,7 @@ See the project report here: [Capstone Paper](Evan_Blosser_Undergrad_Capstone_Pa
 
 ## MAIN_GUI
 
-  contains all the necessary files, simply run `Asteroids_In_MASCON.py` in your favorite Interactive Development Environment (IDE)!
+  Contains all the necessary files; simply run `Asteroids_In_MASCON.py` in your favorite Interactive Development Environment (IDE)!
 
 ---
 
@@ -26,7 +27,7 @@ See the project report here: [Capstone Paper](Evan_Blosser_Undergrad_Capstone_Pa
         
         ![image](https://github.com/evan-a-blosser-1/Asteroid_Shape_Model_GUI_1.0/assets/85218360/0aae3d60-67a4-434b-8a8f-d52984f1683f)
         
-3. Next just follow the setup you can choose where to install, and if you want a desktop shortcut.
+3. Next, just follow the setup; you can choose where to install, and if you want a desktop shortcut.
 
    - I recommend creating the shortcut for ease of locating the software. 
 
@@ -36,7 +37,7 @@ See the project report here: [Capstone Paper](Evan_Blosser_Undergrad_Capstone_Pa
   This is a program that can take a .obj file and convert it to a format that can be run inside `volInt.c`
 
 ### volInt.c
-  Created by Brian Mirtich, and can be found at:  
+  Created by Brian Mirtich and can be found at:  
   
     https://github.com/OpenFOAM/OpenFOAM-2.1.x/blob/master/src/meshTools/momentOfInertia/volumeIntegration/volInt.c 
 
