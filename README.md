@@ -6,7 +6,7 @@ This software is designed as an educational database of asteroid models, aiming 
 <p align="center">
   <img src="Asteroids_in_MASCON.png" alt="Example image" >
 </p>
-<p align="center"><em>Figure 1. Example caption.</em></p>
+<p align="center"><em>Asteroids in MASCON</em></p>
 ---
 ---
 
