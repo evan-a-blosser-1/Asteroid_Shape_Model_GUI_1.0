@@ -1,4 +1,4 @@
-# Asteroid_Shape_Model_GUI_1.0
+# Asteroids in MASCON
 This is the repository for my OU Engineering Physics Capstone Project 
 
 ---
