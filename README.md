@@ -29,7 +29,9 @@ There are two ways to run this software: the first is to run it directly, and th
 
   1. Download the `Asteroids_In_MASCON_Setup.exe` file
   2. Locate the file and run as administrator
-      - Windows will warn you that I am an Unknown publisher:
+      - Windows will warn you that I am an Unknown publisher, but why is this? It costs money to purchase a code signing certificate, and this is usually +$100 per year or within the maximum validity period. As I develop as an engineer, I may be able to justify such an expense. Until then, this software is left as **not-signed**. However, this is open-source software, and with each line of code visible to the user, there is no fear of this being a virus, Scouts Honor! o7
+    
+        You will see this:
         
         ![image](https://github.com/evan-a-blosser-1/Asteroid_Shape_Model_GUI_1.0/assets/85218360/5bf24413-4d60-49d8-91e0-4affb43f8df8)
         
