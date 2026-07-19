@@ -1,22 +1,24 @@
 # Asteroids in MASCON
 This is the repository for my Engineering Physics Capstone Project. After a successful presentation and submission of this project, I was awarded a Bachelor's in Engineering Physics from the University of Oklahoma!
 
-This software is
-See the project report here: [Capstone Paper](Evan_Blosser_Undergrad_Capstone_Paper.pdf)
+This software is designed as an educational database of asteroid models, aiming to spread awareness of space sciences and engage society to support National Aeronautics and Space Administration funding. To learn how the MASCON models were created and how the GUI was programmed, see the project report here: [Capstone Paper](Evan_Blosser_Undergrad_Capstone_Paper.pdf)
 
 ![Program Screenshot](Asteroids_in_MASCON.png)
+<p align="center">
+  <img src="Asteroids_in_MASCON.png" alt="Example image" width="600">
+</p>
+<p align="center"><em>Figure 1. Example caption.</em></p>
 ---
 ---
 
 # HOW TO RUN
 
 There are two ways to run this software: the first is to run it directly, and the second is to install the executable. 
-##### To Run Directly, see MAIN_GUI
-##### To install, see Installing `Asteroids_In_MASCON`
 
-## MAIN_GUI
 
-  Contains all the necessary files; simply run `Asteroids_In_MASCON.py` in your favorite Interactive Development Environment (IDE)!
+## Run Asteroids in MASCON directly
+
+  The folder `MAIN_GUI` contains all the necessary files; simply run the file `Asteroids_In_MASCON.py`, present within the folder, in your favorite Interactive Development Environment (IDE)!
 
 ---
 
@@ -45,6 +47,8 @@ There are two ways to run this software: the first is to run it directly, and th
 ## obj2MirtichData.py
   This is a program that can take a .obj file and convert it to a format that can be run inside `volInt.c`
 
+---
+
 ### volInt.c
   Created by Brian Mirtich and can be found at:  
   
@@ -56,16 +60,16 @@ There are two ways to run this software: the first is to run it directly, and th
 
   A universal software developed to process shape models in OBJ format. Returns a file of positional data of each calculated Center of Mass for the tetrahedrons that make the polyhedron shape model. 
 
-  This also has a method for scaling the shape model using a mean radius that can either be input by the user, or you can select to not scale the shape model. 
+  This also has a method for scaling the shape model using a mean radius, which can either be a user input, or you can select to not scale the shape model. 
 
 ---
 
 ## Apophis Recreation
 
-  Contains preliminary work on the asteroid model Apophis, to calculate the Center of Masses for each tetrahedron within the polyhedron shape model (.obj file).
+  Contains preliminary work on the asteroid model Apophis to calculate the center of mass for each tetrahedron within the polyhedron shape model (.obj file).
 
 ---
 
-## Mean_Radius_CCalculations.ipynb
+## Mean_Radius_Calculations.ipynb
 
-  Contains a log of mean radius and scaling done for all asteroids within this project.
+  Contains a log of mean radius and scaling done for all asteroids within this project, as well as the calculations for the mean radius for Arrokoth.
